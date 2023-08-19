@@ -14,12 +14,12 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 # Files
 set(HEADERS
 	common.hpp
-	graphics/shader.hpp graphics/vertex.hpp
+	graphics/shader.hpp graphics/texture.hpp graphics/vertex.hpp
 	utility/fileutils.hpp utility/log.hpp
 )
 set(SOURCES
 	main.cpp
-	graphics/shader.cpp
+	graphics/shader.cpp graphics/texture.cpp
 	utility/fileutils.cpp utility/log.cpp
 )
 list(TRANSFORM HEADERS PREPEND src/)
