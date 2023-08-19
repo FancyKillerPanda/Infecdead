@@ -39,6 +39,19 @@ DerivePointerAlignment: 'false'
 DisableFormat: 'false'
 FixNamespaceComments: 'true'
 IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex:           '<glad.+>'
+    Priority:        1
+  - Regex:           '<glm.+>'
+    Priority:        2
+  - Regex:           '<json.+>'
+    Priority:        3
+  - Regex:           '<SDL.+>'
+    Priority:        4
+  - Regex:           '<[[:alnum:].]+>'
+    Priority:        100
+  - Regex:           '.*'
+    Priority:    0
 IndentCaseLabels: 'false'
 IndentPPDirectives: BeforeHash
 IndentWidth: '4'

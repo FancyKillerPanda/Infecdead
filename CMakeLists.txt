@@ -23,9 +23,30 @@ set(SOURCES
 list(TRANSFORM HEADERS PREPEND src/)
 list(TRANSFORM SOURCES PREPEND src/)
 
+# Dependencies
+set(BUILD_SHARED_LIBS OFF)
+
+set(GLAD_PROFILE "core")
+set(GLAD_API "gl=3.3")
+set(GLAD_EXTENSIONS "GL_KHR_debug,GL_ARB_direct_state_access")
+add_subdirectory(dep/glad)
+
+add_subdirectory(dep/glm)
+
+set(SDL_TEST_LIBRARY OFF)
+add_subdirectory(dep/SDL)
+
+set(SDL3IMAGE_SAMPLES OFF)
+set(SDL3IMAGE_VENDORED ON)
+set(SDL3IMAGE_TESTS OFF)
+add_subdirectory(dep/SDL_image)
+
 # The executable
 add_executable(Infecdead ${HEADERS} ${SOURCES})
 target_include_directories(Infecdead PUBLIC ${CMAKE_SOURCE_DIR}/src)
+target_link_libraries(Infecdead glad)
+target_link_libraries(Infecdead glm)
+target_link_libraries(Infecdead SDL3::SDL3-static SDL3_image::SDL3_image-static)
 
 # Copies resource files to the output directory
 add_custom_command(TARGET Infecdead POST_BUILD COMMAND
