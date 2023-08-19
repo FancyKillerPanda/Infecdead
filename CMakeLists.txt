@@ -14,6 +14,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 # Files
 set(HEADERS
 	common.hpp
+	graphics/vertex.hpp
 	utility/log.hpp
 )
 set(SOURCES
