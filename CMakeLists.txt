@@ -15,11 +15,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(HEADERS
 	common.hpp
 	graphics/vertex.hpp
-	utility/log.hpp
+	utility/fileutils.hpp utility/log.hpp
 )
 set(SOURCES
 	main.cpp
-	utility/log.cpp
+	utility/fileutils.cpp utility/log.cpp
 )
 list(TRANSFORM HEADERS PREPEND src/)
 list(TRANSFORM SOURCES PREPEND src/)
