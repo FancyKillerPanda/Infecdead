@@ -15,7 +15,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(HEADERS
 	common.hpp
 	graphics/shader.hpp graphics/texture.hpp graphics/vertex.hpp
-	utility/fileutils.hpp utility/log.hpp
+	utility/fileutils.hpp utility/log.hpp utility/utility.hpp
 )
 set(SOURCES
 	main.cpp
