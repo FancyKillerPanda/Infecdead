@@ -10,7 +10,7 @@
 Texture::Texture(const u8* filepath) {
     SDL_Surface* surface = IMG_Load(filepath);
     if (!surface) {
-        log::error("Failed to load image '%s'.\n%s", filepath, SDL_GetError());
+        log_::error("Failed to load image '%s'.\n%s", filepath, SDL_GetError());
         return;
     }
 
@@ -39,7 +39,7 @@ void Texture::init(SDL_Surface* surface) {
         format = GL_RGBA8;
         formatBase = GL_RGBA;
     } else {
-        log::error("Surface has unknown format.");
+        log_::error("Surface has unknown format.");
         return;
     }
 

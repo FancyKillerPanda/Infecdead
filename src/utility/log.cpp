@@ -4,7 +4,7 @@
 #include <string.h>
 #include <time.h>
 
-namespace log {
+namespace log_ {
 
     constexpr const u8* YELLOW = "\x1b[33m";
     constexpr const u8* RED = "\x1b[31m";
@@ -87,4 +87,4 @@ namespace log {
         va_end(args);
     }
 
-} // namespace log
+} // namespace log_

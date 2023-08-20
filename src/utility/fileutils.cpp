@@ -5,7 +5,7 @@
 u8* read_entire_file(const u8* path) {
     FILE* file = fopen(path, "r");
     if (!file) {
-        log::error("Failed to open file \"%s\".", path);
+        log_::error("Failed to open file \"%s\".", path);
         return nullptr;
     }
 
