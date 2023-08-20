@@ -68,17 +68,12 @@ Game::~Game() {
 }
 
 void Game::run() {
-    std::chrono::high_resolution_clock::time_point previousTime =
-        std::chrono::high_resolution_clock::now();
+    std::chrono::high_resolution_clock::time_point previousTime = std::chrono::high_resolution_clock::now();
     f64 lagMs = 0.0;
 
     while (running) {
-        std::chrono::high_resolution_clock::time_point currentTime =
-            std::chrono::high_resolution_clock::now();
-        f64 elapsedMs =
-            std::chrono::duration_cast<std::chrono::microseconds>(currentTime - previousTime)
-                .count() /
-            1000.0;
+        std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
+        f64 elapsedMs = std::chrono::duration_cast<std::chrono::microseconds>(currentTime - previousTime).count() / 1000.0;
         previousTime = currentTime;
         lagMs += elapsedMs;
 
@@ -165,8 +160,8 @@ bool Game::create_window() {
     }
 
     gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress);
-    log_::info("Loaded OpenGL.\nVendor: %s\nRenderer: %s\nVersion: %s", glGetString(GL_VENDOR),
-               glGetString(GL_RENDERER), glGetString(GL_VERSION));
+    log_::info("Loaded OpenGL.\nVendor: %s\nRenderer: %s\nVersion: %s", glGetString(GL_VENDOR), glGetString(GL_RENDERER),
+               glGetString(GL_VERSION));
 
     if (!GLAD_GL_KHR_debug) {
         log_::error("OpenGL extension not available (GL_KHR_debug).");
@@ -190,8 +185,7 @@ bool Game::create_window() {
     return true;
 }
 
-void Game::debug_message_callback(u32 source, u32 type, u32 id, u32 severity, s32 length,
-                                  const u8* message, const void* user) {
+void Game::debug_message_callback(u32 source, u32 type, u32 id, u32 severity, s32 length, const u8* message, const void* user) {
     // Determines the appropriate output string for the source.
     const u8* sourceString = nullptr;
 
@@ -278,6 +272,6 @@ void Game::debug_message_callback(u32 source, u32 type, u32 id, u32 severity, s3
     }
 
     // Outputs the message.
-    log_function("OpenGL debug callback. Source: \"%s\". Type: \"%s\". ID: %u.\nMessage: \"%.*s\".",
-                 sourceString, typeString, id, length, message);
+    log_function("OpenGL debug callback. Source: \"%s\". Type: \"%s\". ID: %u.\nMessage: \"%.*s\".", sourceString, typeString,
+                 id, length, message);
 }

@@ -25,8 +25,8 @@ private:
     void update();
     void render(f64 deltaTime);
 
-    static void debug_message_callback(u32 source, u32 type, u32 id, u32 severity, s32 length,
-                                       const u8* message, const void* user);
+    static void debug_message_callback(u32 source, u32 type, u32 id, u32 severity, s32 length, const u8* message,
+                                       const void* user);
 
 private:
     bool running = false;

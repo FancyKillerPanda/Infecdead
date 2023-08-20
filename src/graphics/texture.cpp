@@ -46,8 +46,7 @@ void Texture::init(SDL_Surface* surface) {
     flip_surface_vertically(surface);
 
     glTextureStorage2D(id, 1, format, surface->w, surface->h);
-    glTextureSubImage2D(id, 0, 0, 0, surface->w, surface->h, formatBase, GL_UNSIGNED_BYTE,
-                        surface->pixels);
+    glTextureSubImage2D(id, 0, 0, 0, surface->w, surface->h, formatBase, GL_UNSIGNED_BYTE, surface->pixels);
     glGenerateTextureMipmap(id);
 }
 
