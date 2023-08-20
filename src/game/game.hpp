@@ -22,8 +22,8 @@ private:
     bool create_window();
 
     void handle_input();
-    void update();
-    void render(f64 deltaTime);
+    void update(f64 deltaTime);
+    void render();
 
     static void debug_message_callback(u32 source, u32 type, u32 id, u32 severity, s32 length, const u8* message,
                                        const void* user);

@@ -69,22 +69,22 @@ Game::~Game() {
 
 void Game::run() {
     std::chrono::high_resolution_clock::time_point previousTime = std::chrono::high_resolution_clock::now();
-    f64 lagMs = 0.0;
+    f64 fpsDisplayDelta = 0.0;
 
     while (running) {
         std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
         f64 elapsedMs = std::chrono::duration_cast<std::chrono::microseconds>(currentTime - previousTime).count() / 1000.0;
         previousTime = currentTime;
-        lagMs += elapsedMs;
 
         handle_input();
+        update(elapsedMs);
+        render();
 
-        while (lagMs >= MS_PER_UPDATE) {
-            update();
-            lagMs -= MS_PER_UPDATE;
+        fpsDisplayDelta += elapsedMs;
+        if (fpsDisplayDelta > 500.0) {
+            log_::info("%.2f FPS\n", 1000.0 / elapsedMs);
+            fpsDisplayDelta = 0.0;
         }
-
-        render(lagMs / MS_PER_UPDATE);
     }
 }
 
@@ -101,10 +101,10 @@ void Game::handle_input() {
     }
 }
 
-void Game::update() {
+void Game::update(f64 deltaTime) {
 }
 
-void Game::render(f64 deltaTime) {
+void Game::render() {
     glClearColor(0.3, 0.0, 0.3, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -177,7 +177,7 @@ bool Game::create_window() {
     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
     glDebugMessageCallback(debug_message_callback, nullptr);
 
-    SDL_GL_SetSwapInterval(1);
+    SDL_GL_SetSwapInterval(0);
 
     // Sets attributes for rendering.
     glViewport(0, 0, windowDimensions.x, windowDimensions.y);
