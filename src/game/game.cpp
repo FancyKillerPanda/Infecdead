@@ -43,10 +43,10 @@ Game::Game() {
 
     Vertex vertices[] = {
         //  position
-        { { -0.5, -0.5 } },
-        { { 0.5, -0.5 } },
-        { { 0.5, 0.5 } },
-        { { -0.5, 0.5 } },
+        { { 300.0, 300.0 } },
+        { { 600.0, 300.0 } },
+        { { 600.0, 100.0 } },
+        { { 300.0, 100.0 } },
     };
 
     glCreateBuffers(1, &vbo);
@@ -61,6 +61,20 @@ Game::Game() {
 
     // Shader
     basicShader = { "res/shaders/basic.vert", "res/shaders/basic.frag" };
+    basicShader.use();
+
+    // Transformation
+    glm::mat4 model { 1.0 };
+    glm::mat4 view { 1.0 };
+    glm::mat4 projection = glm::ortho(0.0, 960.0, 540.0, 0.0);
+
+    u32 location;
+    location = glGetUniformLocation(basicShader.get_program_id(), "model");
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(model));
+    location = glGetUniformLocation(basicShader.get_program_id(), "view");
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(view));
+    location = glGetUniformLocation(basicShader.get_program_id(), "projection");
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(projection));
 }
 
 Game::~Game() {
