@@ -33,10 +33,12 @@ private:
     SDL_Window* window = nullptr;
     SDL_GLContext context;
 
-    // TODO(fkp): Move this elsewhere.
     Shader basicShader;
+    Shader spritesheetShader;
 
+    // TODO(fkp): Move this elsewhere.
     u32 vao = 0;
     u32 vbo = 0;
     u32 ibo = 0;
+    Texture texture;
 };

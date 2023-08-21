@@ -48,7 +48,7 @@ IncludeCategories:
     Priority:        3
   - Regex:           '<SDL.+>'
     Priority:        4
-  - Regex:           '<[[:alnum:].]+>'
+  - Regex:           '<[[:alnum:]._]+>'
     Priority:        100
   - Regex:           '.*'
     Priority:    0

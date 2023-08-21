@@ -40,19 +40,22 @@ Game::Game() {
     glCreateVertexArrays(1, &vao);
     glEnableVertexArrayAttrib(vao, 0);
     glVertexArrayAttribFormat(vao, 0, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex, position));
+    glEnableVertexArrayAttrib(vao, 1);
+    glVertexArrayAttribFormat(vao, 1, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex, texCoord));
 
     Vertex vertices[] = {
         //  position
-        { { 300.0, 300.0 } },
-        { { 600.0, 300.0 } },
-        { { 600.0, 100.0 } },
-        { { 300.0, 100.0 } },
+        { { 300.0, 356.0 }, { 0.0, 0.0 } },
+        { { 428.0, 356.0 }, { 1.0, 0.0 } },
+        { { 428.0, 100.0 }, { 1.0, 1.0 } },
+        { { 300.0, 100.0 }, { 0.0, 1.0 } },
     };
 
     glCreateBuffers(1, &vbo);
     glNamedBufferData(vbo, sizeof(vertices), vertices, GL_STATIC_DRAW);
     glVertexArrayVertexBuffer(vao, 0, vbo, 0, sizeof(Vertex));
     glVertexArrayAttribBinding(vao, 0, 0);
+    glVertexArrayAttribBinding(vao, 1, 0);
 
     u32 indices[] = { 0, 1, 2, 2, 3, 0 };
     glCreateBuffers(1, &ibo);
@@ -61,7 +64,10 @@ Game::Game() {
 
     // Shader
     basicShader = { "res/shaders/basic.vert", "res/shaders/basic.frag" };
-    basicShader.use();
+    // basicShader.use();
+
+    spritesheetShader = { "res/shaders/spritesheet.vert", "res/shaders/spritesheet.frag" };
+    spritesheetShader.use();
 
     // Transformation
     glm::mat4 model { 1.0 };
@@ -69,12 +75,16 @@ Game::Game() {
     glm::mat4 projection = glm::ortho(0.0, 960.0, 540.0, 0.0);
 
     u32 location;
-    location = glGetUniformLocation(basicShader.get_program_id(), "model");
+    location = glGetUniformLocation(spritesheetShader.get_program_id(), "model");
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(model));
-    location = glGetUniformLocation(basicShader.get_program_id(), "view");
+    location = glGetUniformLocation(spritesheetShader.get_program_id(), "view");
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(view));
-    location = glGetUniformLocation(basicShader.get_program_id(), "projection");
+    location = glGetUniformLocation(spritesheetShader.get_program_id(), "projection");
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(projection));
+
+    // Test texture
+    texture = Texture("res/textures/characters/player/walk.png");
+    glUniform1i(glGetUniformLocation(spritesheetShader.get_program_id(), "texSampler"), 0);
 }
 
 Game::~Game() {
@@ -123,7 +133,10 @@ void Game::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glBindVertexArray(vao);
-    basicShader.use();
+    spritesheetShader.use();
+
+    glBindTextureUnit(0, texture.get_id());
+
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
     SDL_GL_SwapWindow(window);
@@ -195,6 +208,7 @@ bool Game::create_window() {
 
     // Sets attributes for rendering.
     glViewport(0, 0, windowDimensions.x, windowDimensions.y);
+    glEnable(GL_BLEND);
 
     return true;
 }
