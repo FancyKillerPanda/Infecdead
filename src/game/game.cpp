@@ -209,6 +209,7 @@ bool Game::create_window() {
     // Sets attributes for rendering.
     glViewport(0, 0, windowDimensions.x, windowDimensions.y);
     glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     return true;
 }
