@@ -48,6 +48,7 @@ void Player::init() {
     glNamedBufferData(vbo, sizeof(vertices), vertices, GL_STATIC_DRAW);
     glVertexArrayVertexBuffer(vao, 0, vbo, 0, sizeof(Vertex));
     glVertexArrayAttribBinding(vao, 0, 0);
+    glVertexArrayAttribBinding(vao, 1, 0);
 
     u32 indices[] = { 0, 1, 2, 2, 3, 0 };
     glCreateBuffers(1, &ibo);
