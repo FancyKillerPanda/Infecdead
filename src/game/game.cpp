@@ -85,6 +85,9 @@ Game::Game() {
     // Test texture
     texture = Texture("res/textures/characters/player/walk.png");
     glUniform1i(glGetUniformLocation(spritesheetShader.get_program_id(), "texSampler"), 0);
+
+    Player::init(&spritesheetShader);
+    player = Player { glm::vec2(600.0, 200.0) };
 }
 
 Game::~Game() {
@@ -132,12 +135,17 @@ void Game::render() {
     glClearColor(0.3, 0.0, 0.3, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    // Test spritesheet
+    u32 location = glGetUniformLocation(spritesheetShader.get_program_id(), "model");
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0)));
+
     glBindVertexArray(vao);
     spritesheetShader.use();
-
     glBindTextureUnit(0, texture.get_id());
-
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+    // Player
+    player.render();
 
     SDL_GL_SwapWindow(window);
 }

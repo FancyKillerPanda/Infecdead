@@ -1,6 +1,7 @@
 #pragma once
 
 #include "common.hpp"
+#include "entities/player.hpp"
 #include "graphics/shader.hpp"
 #include "graphics/texture.hpp"
 
@@ -15,6 +16,13 @@ public:
     Game& operator=(const Game&) = delete;
 
     void run();
+
+    Shader& get_basic_shader() {
+        return basicShader;
+    }
+    Shader& get_spritesheet_shader() {
+        return spritesheetShader;
+    }
 
 private:
     Game();
@@ -41,4 +49,6 @@ private:
     u32 vbo = 0;
     u32 ibo = 0;
     Texture texture;
+
+    Player player;
 };
