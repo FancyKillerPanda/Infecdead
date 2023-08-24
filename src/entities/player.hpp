@@ -13,11 +13,10 @@ public:
     Player() = default;
     Player(glm::vec2 position);
 
-    static void init(Shader* shader);
-
     void render();
 
 private:
+    static void init();
     const Texture& get_current_texture();
 
 private:
@@ -32,6 +31,5 @@ private:
     inline static u32 vbo = 0;
     inline static u32 ibo = 0;
 
-    inline static Shader* shader = nullptr;
     inline static u32 modelMatrixUniformLocation = 0;
 };

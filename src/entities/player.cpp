@@ -10,11 +10,15 @@
 #include <glm/gtc/type_ptr.hpp>
 
 Player::Player(glm::vec2 position) : position(position) {
+    init();
 }
 
-void Player::init(Shader* shaderProgram) {
-    shader = shaderProgram;
-    dimensions = glm::vec2 { 128.0, 256.0 };
+void Player::init() {
+    if (initialised) {
+        return;
+    }
+
+    dimensions = glm::vec2 { 32.0, 32.0 };
 
     glCreateVertexArrays(1, &vao);
     glEnableVertexArrayAttrib(vao, 0);
@@ -40,7 +44,9 @@ void Player::init(Shader* shaderProgram) {
     glNamedBufferData(ibo, sizeof(indices), indices, GL_STATIC_DRAW);
     glVertexArrayElementBuffer(vao, ibo);
 
-    modelMatrixUniformLocation = glGetUniformLocation(shader->get_program_id(), "model");
+    const Shader& shader = Game::get().get_spritesheet_shader();
+    modelMatrixUniformLocation = glGetUniformLocation(shader.get_program_id(), "model");
+    glUniform1i(glGetUniformLocation(shader.get_program_id(), "texSampler"), 0);
 
     // Textures
     if (spritesheetTextures.size() > 0) {
@@ -62,7 +68,7 @@ void Player::render() {
 
     glBindVertexArray(vao);
 
-    shader->use();
+    Game::get().get_spritesheet_shader().use();
     glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0), glm::vec3(position.x, position.y, 0.0));
     glUniformMatrix4fv(modelMatrixUniformLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 

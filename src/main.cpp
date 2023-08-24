@@ -23,6 +23,7 @@ s32 main(s32 argc, u8* argv[]) {
 
     log_::info("Initialised SDL_image.");
 
+    Game::get().init();
     Game::get().run();
 
     IMG_Quit();

@@ -27,7 +27,7 @@ Game& Game::get() {
     return game;
 }
 
-Game::Game() {
+void Game::init() {
     if (!create_window()) {
         return;
     }
@@ -86,7 +86,6 @@ Game::Game() {
     texture = Texture("res/textures/characters/player/walk.png");
     glUniform1i(glGetUniformLocation(spritesheetShader.get_program_id(), "texSampler"), 0);
 
-    Player::init(&spritesheetShader);
     player = Player { glm::vec2(600.0, 200.0) };
 }
 

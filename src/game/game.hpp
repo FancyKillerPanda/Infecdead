@@ -10,6 +10,7 @@
 class Game {
 public:
     static Game& get();
+    void init();
     ~Game();
 
     Game(const Game&) = delete;
@@ -25,7 +26,7 @@ public:
     }
 
 private:
-    Game();
+    Game() = default;
 
     bool create_window();
 
