@@ -18,20 +18,30 @@ void Player::init() {
         return;
     }
 
-    dimensions = glm::vec2 { 32.0, 32.0 };
+    dimensions = glm::vec2 { 128.0, 256.0 };
 
     glCreateVertexArrays(1, &vao);
     glEnableVertexArrayAttrib(vao, 0);
     glVertexArrayAttribFormat(vao, 0, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex, position));
+    glEnableVertexArrayAttrib(vao, 1);
+    glVertexArrayAttribFormat(vao, 1, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex, texCoord));
 
     // TODO(fkp): Different vertex structs for different types. We're unnecessarily
     // sending an empty texture coordinate vec2 here.
+    // Vertex vertices[] = {
+    //     //  position
+    //     { { 0.0, 0.0 } },
+    //     { { 0.0, dimensions.y } },
+    //     { { dimensions.x, dimensions.y } },
+    //     { { dimensions.x, 0.0 } },
+    // };
+
     Vertex vertices[] = {
         //  position
-        { { 0.0, 0.0 } },
-        { { 0.0, dimensions.y } },
-        { { dimensions.x, dimensions.y } },
-        { { dimensions.x, 0.0 } },
+        { { 0.0, 0.0 }, { 0.0, 1.0 } },
+        { { 0.0, dimensions.y }, { 0.0, 0.0 } },
+        { { dimensions.x, dimensions.y }, { 1.0, 0.0 } },
+        { { dimensions.x, 0.0 }, { 1.0, 1.0 } },
     };
 
     glCreateBuffers(1, &vbo);
