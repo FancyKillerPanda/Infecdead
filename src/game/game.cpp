@@ -151,16 +151,6 @@ bool Game::create_window() {
     log_::info("Loaded OpenGL.\nVendor: %s\nRenderer: %s\nVersion: %s", glGetString(GL_VENDOR), glGetString(GL_RENDERER),
                glGetString(GL_VERSION));
 
-    if (!GLAD_GL_KHR_debug) {
-        log_::error("OpenGL extension not available (GL_KHR_debug).");
-        return false;
-    }
-
-    if (!GLAD_GL_ARB_direct_state_access) {
-        log_::error("OpenGL extension not available (GL_ARB_direct_state_access).");
-        return false;
-    }
-
     glEnable(GL_DEBUG_OUTPUT);
     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
     glDebugMessageCallback(debug_message_callback, nullptr);

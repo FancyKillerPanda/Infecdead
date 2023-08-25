@@ -33,8 +33,7 @@ list(TRANSFORM SOURCES PREPEND src/)
 set(BUILD_SHARED_LIBS OFF)
 
 set(GLAD_PROFILE "core")
-set(GLAD_API "gl=3.3")
-set(GLAD_EXTENSIONS "GL_KHR_debug,GL_ARB_direct_state_access")
+set(GLAD_API "gl=4.5")
 add_subdirectory(dep/glad)
 
 add_subdirectory(dep/glm)
