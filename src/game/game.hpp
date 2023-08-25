@@ -21,8 +21,8 @@ public:
     Shader& get_basic_shader() {
         return basicShader;
     }
-    Shader& get_spritesheet_shader() {
-        return spritesheetShader;
+    Shader& get_character_shader() {
+        return characterShader;
     }
 
 private:
@@ -44,7 +44,7 @@ private:
 
     u32 matricesUbo = 0;
     Shader basicShader;
-    Shader spritesheetShader;
+    Shader characterShader;
 
     Player player;
 };

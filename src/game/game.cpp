@@ -37,7 +37,7 @@ void Game::init() {
 
     // Shaders
     basicShader = { "res/shaders/basic.vert", "res/shaders/basic.frag" };
-    spritesheetShader = { "res/shaders/spritesheet.vert", "res/shaders/spritesheet.frag" };
+    characterShader = { "res/shaders/character.vert", "res/shaders/character.frag" };
 
     // Transformation
     glm::mat4 projection = glm::ortho(0.0, 960.0, 540.0, 0.0);

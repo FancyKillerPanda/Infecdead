@@ -45,7 +45,7 @@ void Player::init() {
     glNamedBufferData(ibo, sizeof(indices), indices, GL_STATIC_DRAW);
     glVertexArrayElementBuffer(vao, ibo);
 
-    shader = Game::get().get_spritesheet_shader().get_program_id();
+    shader = Game::get().get_character_shader().get_program_id();
     modelMatrixUniformLocation = glGetUniformLocation(shader, "model");
     columnUniformLocation = glGetUniformLocation(shader, "spritesheetColumn");
     rotationUniformLocation = glGetUniformLocation(shader, "rotation");
