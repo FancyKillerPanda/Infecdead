@@ -28,10 +28,10 @@ void Player::init() {
 
     Vertex vertices[] = {
         //  position
-        { { 0.0, 0.0 }, { 0.0, 1.0 } },
-        { { 0.0, dimensions.y }, { 0.0, 0.0 } },
-        { { dimensions.x, dimensions.y }, { 1.0, 0.0 } },
-        { { dimensions.x, 0.0 }, { 1.0, 1.0 } },
+        { { -dimensions.x / 2, -dimensions.y / 2 }, { 0.0, 1.0 } },
+        { { -dimensions.x / 2, dimensions.y / 2 }, { 0.0, 0.0 } },
+        { { dimensions.x / 2, dimensions.y / 2 }, { 1.0, 0.0 } },
+        { { dimensions.x / 2, -dimensions.y / 2 }, { 1.0, 1.0 } },
     };
 
     glCreateBuffers(1, &vbo);
