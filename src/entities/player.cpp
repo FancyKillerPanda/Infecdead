@@ -18,23 +18,13 @@ void Player::init() {
         return;
     }
 
-    dimensions = glm::vec2 { 128.0, 256.0 };
+    dimensions = glm::vec2 { 32.0, 32.0 };
 
     glCreateVertexArrays(1, &vao);
     glEnableVertexArrayAttrib(vao, 0);
     glVertexArrayAttribFormat(vao, 0, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex, position));
     glEnableVertexArrayAttrib(vao, 1);
     glVertexArrayAttribFormat(vao, 1, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex, texCoord));
-
-    // TODO(fkp): Different vertex structs for different types. We're unnecessarily
-    // sending an empty texture coordinate vec2 here.
-    // Vertex vertices[] = {
-    //     //  position
-    //     { { 0.0, 0.0 } },
-    //     { { 0.0, dimensions.y } },
-    //     { { dimensions.x, dimensions.y } },
-    //     { { dimensions.x, 0.0 } },
-    // };
 
     Vertex vertices[] = {
         //  position
@@ -57,17 +47,13 @@ void Player::init() {
 
     const Shader& shader = Game::get().get_spritesheet_shader();
     modelMatrixUniformLocation = glGetUniformLocation(shader.get_program_id(), "model");
+    columnUniformLocation = glGetUniformLocation(shader.get_program_id(), "spritesheetColumn");
     glUniform1i(glGetUniformLocation(shader.get_program_id(), "texSampler"), 0);
-
-    // Textures
-    if (spritesheetTextures.size() > 0) {
-        // Already initialised, no need to do anything.
-        return;
-    }
 
     // NOTE(fkp): The order of items here must be the same as the order of enum variants in get_current_texture().
     spritesheetTextures.emplace_back("res/textures/characters/player/walk.png");
 
+    log_::info("Initialised static Player data.");
     initialised = true;
 }
 
@@ -82,6 +68,7 @@ void Player::render() {
     Game::get().get_spritesheet_shader().use();
     glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0), glm::vec3(position.x, position.y, 0.0));
     glUniformMatrix4fv(modelMatrixUniformLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+    glUniform1i(columnUniformLocation, 0);
 
     glBindTextureUnit(0, get_current_texture().get_id());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
