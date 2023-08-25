@@ -45,11 +45,5 @@ private:
     Shader basicShader;
     Shader spritesheetShader;
 
-    // TODO(fkp): Move this elsewhere.
-    u32 vao = 0;
-    u32 vbo = 0;
-    u32 ibo = 0;
-    Texture texture;
-
     Player player;
 };
