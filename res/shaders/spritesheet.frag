@@ -10,11 +10,12 @@ const vec2 SPRITESHEET_DIMENSIONS = SPRITESHEET_CELL_DIMENSIONS * SPRITESHEET_NU
 
 uniform int spritesheetColumn;
 uniform sampler2D texSampler;
+uniform float rotation;
 
 void main() {
-	// TODO(fkp): Figure out based on rotation.
-	int spritesheetRow = 0;
-	
+	int direction = int(rotation / 45.0);
+	int spritesheetRow = 7 - direction;
+
 	vec2 spritesheetCellPixels = vec2(spritesheetColumn, spritesheetRow) * SPRITESHEET_CELL_DIMENSIONS;
 	vec2 spritesheetCell = spritesheetCellPixels / SPRITESHEET_DIMENSIONS;
 	vec2 spritesheetTexCoord = spritesheetCell + (texCoord / SPRITESHEET_NUM_CELLS);

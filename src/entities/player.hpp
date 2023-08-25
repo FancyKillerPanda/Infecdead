@@ -23,6 +23,7 @@ private:
     inline static bool initialised = false;
 
     glm::vec2 position;
+    f64 rotation = 0;
     inline static glm::vec2 dimensions;
 
     inline static std::vector<Texture> spritesheetTextures;
@@ -33,4 +34,5 @@ private:
 
     inline static u32 modelMatrixUniformLocation = 0;
     inline static u32 columnUniformLocation = 0;
+    inline static u32 rotationUniformLocation = 0;
 };
