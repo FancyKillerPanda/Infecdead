@@ -42,6 +42,7 @@ private:
     SDL_Window* window = nullptr;
     SDL_GLContext context;
 
+    u32 matricesUbo = 0;
     Shader basicShader;
     Shader spritesheetShader;
 

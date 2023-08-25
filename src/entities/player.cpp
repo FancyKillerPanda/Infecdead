@@ -45,11 +45,11 @@ void Player::init() {
     glNamedBufferData(ibo, sizeof(indices), indices, GL_STATIC_DRAW);
     glVertexArrayElementBuffer(vao, ibo);
 
-    const Shader& shader = Game::get().get_spritesheet_shader();
-    modelMatrixUniformLocation = glGetUniformLocation(shader.get_program_id(), "model");
-    columnUniformLocation = glGetUniformLocation(shader.get_program_id(), "spritesheetColumn");
-    rotationUniformLocation = glGetUniformLocation(shader.get_program_id(), "rotation");
-    glUniform1i(glGetUniformLocation(shader.get_program_id(), "texSampler"), 0);
+    shader = Game::get().get_spritesheet_shader().get_program_id();
+    modelMatrixUniformLocation = glGetUniformLocation(shader, "model");
+    columnUniformLocation = glGetUniformLocation(shader, "spritesheetColumn");
+    rotationUniformLocation = glGetUniformLocation(shader, "rotation");
+    glProgramUniform1i(shader, glGetUniformLocation(shader, "texSampler"), 0);
 
     // NOTE(fkp): The order of items here must be the same as the order of enum variants in get_current_texture().
     spritesheetTextures.emplace_back("res/textures/characters/player/walk.png");
@@ -64,14 +64,13 @@ void Player::render() {
         return;
     }
 
-    glBindVertexArray(vao);
-
-    Game::get().get_spritesheet_shader().use();
     glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0), glm::vec3(position.x, position.y, 0.0));
-    glUniformMatrix4fv(modelMatrixUniformLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
-    glUniform1i(columnUniformLocation, 0);
-    glUniform1f(rotationUniformLocation, rotation);
+    glProgramUniformMatrix4fv(shader, modelMatrixUniformLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+    glProgramUniform1i(shader, columnUniformLocation, 0);
+    glProgramUniform1f(shader, rotationUniformLocation, rotation);
 
+    glBindVertexArray(vao);
+    glUseProgram(shader);
     glBindTextureUnit(0, get_current_texture().get_id());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }

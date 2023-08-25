@@ -40,15 +40,12 @@ void Game::init() {
     spritesheetShader = { "res/shaders/spritesheet.vert", "res/shaders/spritesheet.frag" };
 
     // Transformation
-    glm::mat4 view { 1.0 };
     glm::mat4 projection = glm::ortho(0.0, 960.0, 540.0, 0.0);
 
-    spritesheetShader.use();
-    u32 location;
-    location = glGetUniformLocation(spritesheetShader.get_program_id(), "view");
-    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(view));
-    location = glGetUniformLocation(spritesheetShader.get_program_id(), "projection");
-    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(projection));
+    glCreateBuffers(1, &matricesUbo);
+    glNamedBufferData(matricesUbo, 2 * sizeof(glm::mat4), nullptr, GL_DYNAMIC_DRAW);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, matricesUbo);
+    glNamedBufferSubData(matricesUbo, 0, sizeof(glm::mat4), glm::value_ptr(projection));
 
     player = Player { glm::vec2(600.0, 200.0) };
 }
@@ -97,6 +94,10 @@ void Game::update(f64 deltaTime) {
 void Game::render() {
     glClearColor(0.3, 0.0, 0.3, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // TODO(fkp): Get view matrix from a camera.
+    glm::mat4 view { 1.0 };
+    glNamedBufferSubData(matricesUbo, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(view));
 
     player.render();
 

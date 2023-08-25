@@ -32,6 +32,7 @@ private:
     inline static u32 vbo = 0;
     inline static u32 ibo = 0;
 
+    inline static u32 shader = 0;
     inline static u32 modelMatrixUniformLocation = 0;
     inline static u32 columnUniformLocation = 0;
     inline static u32 rotationUniformLocation = 0;
