@@ -59,11 +59,38 @@ void Player::init() {
 }
 
 void Player::update(f64 deltaTime) {
+    // Rotation
     glm::vec2 mousePosition = Game::get().get_world_mouse_position();
     glm::vec2 mouseDirection = mousePosition - Game::get().to_view_space(position);
     f64 angle = -atan2(mouseDirection.y, mouseDirection.x);
 
     rotation = fmod(glm::degrees(angle) + 360.0, 360.0);
+    f64 rotationRadians = glm::radians(rotation);
+    glm::vec2 rotationVector = glm::normalize(glm::vec2 { cos(rotationRadians), -sin(rotationRadians) });
+
+    // Movement
+    const Uint8* keyboard = SDL_GetKeyboardState(nullptr);
+    acceleration = { 0, 0 };
+
+    if (keyboard[SDL_SCANCODE_W]) {
+        acceleration = rotationVector * (f32) get_walk_acceleration();
+    }
+    if (keyboard[SDL_SCANCODE_S]) {
+        acceleration = rotationVector * (f32) (-get_walk_acceleration() * 0.5);
+    }
+
+    velocity += acceleration * (f32) deltaTime;
+    velocity *= get_friction();
+
+    if (abs(velocity.x) < 0.0015) {
+        velocity.x = 0;
+    }
+
+    if (abs(velocity.y) < 0.0015) {
+        velocity.y = 0;
+    }
+
+    position += velocity;
 }
 
 void Player::render() {

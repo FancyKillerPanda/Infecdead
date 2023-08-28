@@ -61,7 +61,7 @@ void Game::run() {
         previousTime = currentTime;
 
         handle_input();
-        update(elapsedMs);
+        update(elapsedMs / 1000.0);
         render();
 
         fpsDisplayDelta += elapsedMs;
