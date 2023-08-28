@@ -27,9 +27,12 @@ private:
     inline static bool initialised = false;
 
     f32 rotation = 0;
-    glm::vec2 position;
-    glm::vec2 velocity;
-    glm::vec2 acceleration;
+    glm::vec2 position = { 0, 0 };
+    glm::vec2 velocity = { 0, 0 };
+    glm::vec2 acceleration = { 0, 0 };
+
+    f32 frameDelta = 0;
+    u32 spritesheetColumn = 0;
 
     inline static glm::vec2 dimensions;
     inline static std::vector<Texture> spritesheetTextures;

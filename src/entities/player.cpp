@@ -9,6 +9,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+constexpr const f32 SPRITESHEET_NEXT_FRAME_DELTA = 0.15f;
+
 Player::Player(glm::vec2 position) : position(position) {
     init();
 }
@@ -97,6 +99,19 @@ void Player::update(f32 deltaTime) {
     }
 
     position += velocity;
+
+    // Texture
+    frameDelta += deltaTime;
+    if (frameDelta >= SPRITESHEET_NEXT_FRAME_DELTA) {
+        frameDelta -= SPRITESHEET_NEXT_FRAME_DELTA;
+
+        spritesheetColumn += 1;
+        spritesheetColumn %= 4;
+    }
+
+    if (velocity == glm::vec2 { 0, 0 }) {
+        spritesheetColumn = 0;
+    }
 }
 
 void Player::render() {
@@ -107,7 +122,7 @@ void Player::render() {
 
     glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f));
     glProgramUniformMatrix4fv(shader, modelMatrixUniformLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
-    glProgramUniform1i(shader, columnUniformLocation, 0);
+    glProgramUniform1i(shader, columnUniformLocation, spritesheetColumn);
     glProgramUniform1f(shader, rotationUniformLocation, rotation);
 
     glBindVertexArray(vao);
