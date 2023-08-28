@@ -13,20 +13,20 @@ public:
     Player() = default;
     Player(glm::vec2 position);
 
-    void update(f64 deltaTime);
+    void update(f32 deltaTime);
     void render();
 
 private:
     static void init();
     const Texture& get_current_texture();
 
-    f64 get_walk_acceleration() { return 8; }
-    f64 get_friction() { return 0.95; }
+    f32 get_walk_acceleration() { return 8.0f; }
+    f32 get_friction() { return 0.95f; }
 
 private:
     inline static bool initialised = false;
 
-    f64 rotation = 0;
+    f32 rotation = 0;
     glm::vec2 position;
     glm::vec2 velocity;
     glm::vec2 acceleration;

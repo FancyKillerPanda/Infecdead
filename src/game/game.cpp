@@ -44,7 +44,7 @@ void Game::init() {
     glBindBufferBase(GL_UNIFORM_BUFFER, 0, matricesUbo);
     glNamedBufferSubData(matricesUbo, 0, sizeof(glm::mat4), glm::value_ptr(projection));
 
-    player = Player { glm::vec2(600.0, 200.0) };
+    player = Player { glm::vec2(600.0f, 200.0f) };
 }
 
 Game::~Game() {
@@ -53,21 +53,21 @@ Game::~Game() {
 
 void Game::run() {
     std::chrono::high_resolution_clock::time_point previousTime = std::chrono::high_resolution_clock::now();
-    f64 fpsDisplayDelta = 0.0;
+    f32 fpsDisplayDelta = 0.0f;
 
     while (running) {
         std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
-        f64 elapsedMs = std::chrono::duration_cast<std::chrono::microseconds>(currentTime - previousTime).count() / 1000.0;
+        f32 elapsedMs = std::chrono::duration_cast<std::chrono::microseconds>(currentTime - previousTime).count() / 1000.0f;
         previousTime = currentTime;
 
         handle_input();
-        update(elapsedMs / 1000.0);
+        update(elapsedMs / 1000.0f);
         render();
 
         fpsDisplayDelta += elapsedMs;
-        if (fpsDisplayDelta > 500.0) {
-            log_::info("%.2f FPS\n", 1000.0 / elapsedMs);
-            fpsDisplayDelta = 0.0;
+        if (fpsDisplayDelta > 500.0f) {
+            log_::info("%.2f FPS\n", 1000.0f / elapsedMs);
+            fpsDisplayDelta = 0.0f;
         }
     }
 }
@@ -85,12 +85,12 @@ void Game::handle_input() {
     }
 }
 
-void Game::update(f64 deltaTime) {
+void Game::update(f32 deltaTime) {
     player.update(deltaTime);
 }
 
 void Game::render() {
-    glClearColor(0.3, 0.0, 0.3, 1.0);
+    glClearColor(0.3f, 0.0f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // TODO(fkp): Get view matrix from a camera.

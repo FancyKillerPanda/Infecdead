@@ -10,7 +10,7 @@
 #include <SDL3/SDL.h>
 
 // Used in internal calculations.
-constexpr const glm::vec2 INTERNAL_WINDOW_DIMENSIONS = { 960.0, 540.0 };
+constexpr const glm::vec2 INTERNAL_WINDOW_DIMENSIONS = { 960.0f, 540.0f };
 
 class Game {
 public:
@@ -41,7 +41,7 @@ private:
     bool create_window();
 
     void handle_input();
-    void update(f64 deltaTime);
+    void update(f32 deltaTime);
     void render();
 
     static void debug_message_callback(u32 source, u32 type, u32 id, u32 severity, s32 length, const u8* message,

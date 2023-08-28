@@ -18,7 +18,7 @@ void Player::init() {
         return;
     }
 
-    dimensions = glm::vec2 { 32.0, 32.0 };
+    dimensions = glm::vec2 { 32.0f, 32.0f };
 
     glCreateVertexArrays(1, &vao);
     glEnableVertexArrayAttrib(vao, 0);
@@ -28,10 +28,10 @@ void Player::init() {
 
     Vertex vertices[] = {
         //  position
-        { { -dimensions.x / 2, -dimensions.y / 2 }, { 0.0, 1.0 } },
-        { { -dimensions.x / 2, dimensions.y / 2 }, { 0.0, 0.0 } },
-        { { dimensions.x / 2, dimensions.y / 2 }, { 1.0, 0.0 } },
-        { { dimensions.x / 2, -dimensions.y / 2 }, { 1.0, 1.0 } },
+        { { -dimensions.x / 2, -dimensions.y / 2 }, { 0.0f, 1.0f } },
+        { { -dimensions.x / 2, dimensions.y / 2 }, { 0.0f, 0.0f } },
+        { { dimensions.x / 2, dimensions.y / 2 }, { 1.0f, 0.0f } },
+        { { dimensions.x / 2, -dimensions.y / 2 }, { 1.0f, 1.0f } },
     };
 
     glCreateBuffers(1, &vbo);
@@ -58,14 +58,14 @@ void Player::init() {
     initialised = true;
 }
 
-void Player::update(f64 deltaTime) {
+void Player::update(f32 deltaTime) {
     // Rotation
     glm::vec2 mousePosition = Game::get().get_world_mouse_position();
     glm::vec2 mouseDirection = mousePosition - Game::get().to_view_space(position);
-    f64 angle = -atan2(mouseDirection.y, mouseDirection.x);
+    f32 angle = -atan2(mouseDirection.y, mouseDirection.x);
 
-    rotation = fmod(glm::degrees(angle) + 360.0, 360.0);
-    f64 rotationRadians = glm::radians(rotation);
+    rotation = fmod(glm::degrees(angle) + 360.0f, 360.0f);
+    f32 rotationRadians = glm::radians(rotation);
     glm::vec2 rotationVector = glm::normalize(glm::vec2 { cos(rotationRadians), -sin(rotationRadians) });
 
     // Movement
@@ -73,20 +73,20 @@ void Player::update(f64 deltaTime) {
     acceleration = { 0, 0 };
 
     if (keyboard[SDL_SCANCODE_W]) {
-        acceleration = rotationVector * (f32) get_walk_acceleration();
+        acceleration = rotationVector * get_walk_acceleration();
     }
     if (keyboard[SDL_SCANCODE_S]) {
-        acceleration = rotationVector * (f32) (-get_walk_acceleration() * 0.5);
+        acceleration = rotationVector * -get_walk_acceleration() * 0.5f;
     }
 
-    velocity += acceleration * (f32) deltaTime;
+    velocity += acceleration * deltaTime;
     velocity *= get_friction();
 
-    if (abs(velocity.x) < 0.0015) {
+    if (abs(velocity.x) < 0.0015f) {
         velocity.x = 0;
     }
 
-    if (abs(velocity.y) < 0.0015) {
+    if (abs(velocity.y) < 0.0015f) {
         velocity.y = 0;
     }
 
@@ -99,7 +99,7 @@ void Player::render() {
         return;
     }
 
-    glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0), glm::vec3(position.x, position.y, 0.0));
+    glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f));
     glProgramUniformMatrix4fv(shader, modelMatrixUniformLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
     glProgramUniform1i(shader, columnUniformLocation, 0);
     glProgramUniform1f(shader, rotationUniformLocation, rotation);
