@@ -13,7 +13,7 @@ uniform sampler2D texSampler;
 uniform float rotation;
 
 void main() {
-	int direction = int(rotation / 45.0);
+	int direction = int((rotation + 22.5) / 45.0) % 8;
 	int spritesheetRow = 7 - direction;
 
 	vec2 spritesheetCellPixels = vec2(spritesheetColumn, spritesheetRow) * SPRITESHEET_CELL_DIMENSIONS;

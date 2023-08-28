@@ -63,9 +63,7 @@ void Player::update(f64 deltaTime) {
     glm::vec2 mouseDirection = mousePosition - Game::get().to_view_space(position);
     f64 angle = -atan2(mouseDirection.y, mouseDirection.x);
 
-    // log_::warn("Angle: %.2f, %.2f", angle, fmod(glm::degrees(angle) + 360.0, 360.0));
-    log_::warn("Pos: (%.2f, %.2f), screen space: (%.2f, %.2f)", position.x, position.y, Game::get().to_view_space(position).x,
-               Game::get().to_view_space(position).y);
+    rotation = fmod(glm::degrees(angle) + 360.0, 360.0);
 }
 
 void Player::render() {
