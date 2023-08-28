@@ -58,6 +58,14 @@ void Player::init() {
     initialised = true;
 }
 
+void Player::update(f64 deltaTime) {
+    glm::vec2 mousePosition = Game::get().get_world_mouse_position();
+    glm::vec2 mouseDirection = mousePosition - position;
+    f64 angle = -atan2(mouseDirection.y, mouseDirection.x);
+
+    log_::warn("Angle: %.2f, %.2f", angle, fmod(glm::degrees(angle) + 360.0, 360.0));
+}
+
 void Player::render() {
     if (!initialised) {
         log_::warn("Trying to render Player without initialisation.");

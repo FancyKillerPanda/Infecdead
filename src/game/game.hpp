@@ -25,6 +25,8 @@ public:
         return characterShader;
     }
 
+    glm::vec2 get_world_mouse_position();
+
 private:
     Game() = default;
 
@@ -41,6 +43,7 @@ private:
     bool running = false;
     SDL_Window* window = nullptr;
     SDL_GLContext context;
+    glm::vec2 windowDimensions; // TODO(fkp): Update when window size changes.
 
     u32 matricesUbo = 0;
     Shader basicShader;

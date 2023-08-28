@@ -19,8 +19,8 @@
 // TODO(fkp): Allow toggling between fullscreen and windowed.
 bool FULLSCREEN = false;
 
-// Number of milliseconds for each game tick.
-f64 MS_PER_UPDATE = 10.0;
+// Used in internal calculation.
+constexpr const glm::vec2 INTERNAL_WINDOW_DIMENSIONS = { 960.0, 540.0 };
 
 Game& Game::get() {
     static Game game;
@@ -40,7 +40,7 @@ void Game::init() {
     characterShader = { "res/shaders/character.vert", "res/shaders/character.frag" };
 
     // Transformation
-    glm::mat4 projection = glm::ortho(0.0, 960.0, 540.0, 0.0);
+    glm::mat4 projection = glm::ortho(0.0f, INTERNAL_WINDOW_DIMENSIONS.x, INTERNAL_WINDOW_DIMENSIONS.y, 0.0f);
 
     glCreateBuffers(1, &matricesUbo);
     glNamedBufferData(matricesUbo, 2 * sizeof(glm::mat4), nullptr, GL_DYNAMIC_DRAW);
@@ -89,6 +89,7 @@ void Game::handle_input() {
 }
 
 void Game::update(f64 deltaTime) {
+    player.update(deltaTime);
 }
 
 void Game::render() {
@@ -104,11 +105,17 @@ void Game::render() {
     SDL_GL_SwapWindow(window);
 }
 
+glm::vec2 Game::get_world_mouse_position() {
+    glm::vec2 result;
+    SDL_GetMouseState(&result.x, &result.y);
+
+    return (result / windowDimensions) * INTERNAL_WINDOW_DIMENSIONS;
+}
+
 bool Game::create_window() {
     // Determines an appropriate window size.
     const SDL_DisplayMode* displayMode = SDL_GetCurrentDisplayMode(SDL_GetPrimaryDisplay());
 
-    glm::vec2 windowDimensions;
     u32 windowFlags = SDL_WINDOW_OPENGL;
 
     if (FULLSCREEN) {

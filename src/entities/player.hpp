@@ -13,6 +13,7 @@ public:
     Player() = default;
     Player(glm::vec2 position);
 
+    void update(f64 deltaTime);
     void render();
 
 private:
