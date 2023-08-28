@@ -5,7 +5,12 @@
 #include "graphics/shader.hpp"
 #include "graphics/texture.hpp"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 #include <SDL3/SDL.h>
+
+// Used in internal calculations.
+constexpr const glm::vec2 INTERNAL_WINDOW_DIMENSIONS = { 960.0, 540.0 };
 
 class Game {
 public:
@@ -18,14 +23,17 @@ public:
 
     void run();
 
-    Shader& get_basic_shader() {
-        return basicShader;
-    }
-    Shader& get_character_shader() {
-        return characterShader;
-    }
+    Shader& get_basic_shader() { return basicShader; }
+    Shader& get_character_shader() { return characterShader; }
 
     glm::vec2 get_world_mouse_position();
+
+    glm::mat4 get_projection_matrix() const {
+        return glm::ortho(0.0f, INTERNAL_WINDOW_DIMENSIONS.x, INTERNAL_WINDOW_DIMENSIONS.y, 0.0f);
+    }
+
+    glm::mat4 get_view_matrix() const { return glm::mat4(1.0f); }
+    glm::vec2 to_view_space(glm::vec2 position);
 
 private:
     Game() = default;

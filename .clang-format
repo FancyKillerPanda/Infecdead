@@ -12,7 +12,7 @@ AllowAllConstructorInitializersOnNextLine: 'false'
 AllowAllParametersOfDeclarationOnNextLine: 'false'
 AllowShortBlocksOnASingleLine: 'false'
 AllowShortCaseLabelsOnASingleLine: 'false'
-AllowShortFunctionsOnASingleLine: None
+AllowShortFunctionsOnASingleLine: InlineOnly
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLambdasOnASingleLine: Inline
 AllowShortLoopsOnASingleLine: 'false'

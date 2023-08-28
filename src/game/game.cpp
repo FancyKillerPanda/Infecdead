@@ -19,9 +19,6 @@
 // TODO(fkp): Allow toggling between fullscreen and windowed.
 bool FULLSCREEN = false;
 
-// Used in internal calculation.
-constexpr const glm::vec2 INTERNAL_WINDOW_DIMENSIONS = { 960.0, 540.0 };
-
 Game& Game::get() {
     static Game game;
     return game;
@@ -40,7 +37,7 @@ void Game::init() {
     characterShader = { "res/shaders/character.vert", "res/shaders/character.frag" };
 
     // Transformation
-    glm::mat4 projection = glm::ortho(0.0f, INTERNAL_WINDOW_DIMENSIONS.x, INTERNAL_WINDOW_DIMENSIONS.y, 0.0f);
+    glm::mat4 projection = get_projection_matrix();
 
     glCreateBuffers(1, &matricesUbo);
     glNamedBufferData(matricesUbo, 2 * sizeof(glm::mat4), nullptr, GL_DYNAMIC_DRAW);
@@ -97,7 +94,7 @@ void Game::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // TODO(fkp): Get view matrix from a camera.
-    glm::mat4 view { 1.0 };
+    glm::mat4 view = get_view_matrix();
     glNamedBufferSubData(matricesUbo, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(view));
 
     player.render();
@@ -110,6 +107,10 @@ glm::vec2 Game::get_world_mouse_position() {
     SDL_GetMouseState(&result.x, &result.y);
 
     return (result / windowDimensions) * INTERNAL_WINDOW_DIMENSIONS;
+}
+
+glm::vec2 Game::to_view_space(glm::vec2 position) {
+    return glm::vec4(position, 0.0f, 1.0f) * get_view_matrix();
 }
 
 bool Game::create_window() {
