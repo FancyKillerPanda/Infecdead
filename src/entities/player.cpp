@@ -73,10 +73,16 @@ void Player::update(f32 deltaTime) {
     acceleration = { 0, 0 };
 
     if (keyboard[SDL_SCANCODE_W]) {
-        acceleration = rotationVector * get_walk_acceleration();
+        acceleration += rotationVector * get_walk_acceleration();
     }
     if (keyboard[SDL_SCANCODE_S]) {
-        acceleration = rotationVector * -get_walk_acceleration() * 0.5f;
+        acceleration += rotationVector * -get_walk_acceleration() * 0.5f;
+    }
+    if (keyboard[SDL_SCANCODE_A]) {
+        acceleration += glm::vec2(rotationVector.y, -rotationVector.x) * get_walk_acceleration() * 0.5f;
+    }
+    if (keyboard[SDL_SCANCODE_D]) {
+        acceleration += glm::vec2(-rotationVector.y, rotationVector.x) * get_walk_acceleration() * 0.5f;
     }
 
     velocity += acceleration * deltaTime;
