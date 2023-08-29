@@ -14,14 +14,14 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 # Files
 set(HEADERS
 	common.hpp
-	entities/player.hpp
+	entities/character.hpp entities/player.hpp
 	game/game.hpp
 	graphics/shader.hpp graphics/texture.hpp graphics/vertex.hpp
 	utility/fileutils.hpp utility/log.hpp utility/utility.hpp
 )
 set(SOURCES
 	main.cpp
-	entities/player.cpp
+	entities/character.cpp entities/player.cpp
 	game/game.cpp
 	graphics/shader.cpp graphics/texture.cpp
 	utility/fileutils.cpp utility/log.cpp
