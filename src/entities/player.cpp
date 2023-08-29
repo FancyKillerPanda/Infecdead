@@ -61,7 +61,7 @@ void Player::update(f32 deltaTime) {
 const Texture& Player::get_current_texture() {
     if (!isInitialised || spritesheetTextures.size() == 0) {
         log_::error("Attempting to get player texture before initialisation.");
-        return Texture();
+        return Texture::missing();
     }
 
     // NOTE(fkp): The order of items here must be the same as the order of items in init_textures().
