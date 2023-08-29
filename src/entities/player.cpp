@@ -9,8 +9,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-constexpr const f32 SPRITESHEET_NEXT_FRAME_DELTA = 0.15f;
-
 Player::Player(glm::vec2 position) : Character(position) {
     init();
 }
@@ -56,31 +54,8 @@ void Player::update(f32 deltaTime) {
         acceleration += glm::vec2(-rotationVector.y, rotationVector.x) * get_walk_acceleration() * 0.5f;
     }
 
-    velocity += acceleration * deltaTime;
-    velocity *= get_friction();
-
-    if (abs(velocity.x) < 0.0015f) {
-        velocity.x = 0;
-    }
-
-    if (abs(velocity.y) < 0.0015f) {
-        velocity.y = 0;
-    }
-
-    position += velocity;
-
-    // Texture
-    frameDelta += deltaTime;
-    if (frameDelta >= SPRITESHEET_NEXT_FRAME_DELTA) {
-        frameDelta -= SPRITESHEET_NEXT_FRAME_DELTA;
-
-        spritesheetColumn += 1;
-        spritesheetColumn %= 4;
-    }
-
-    if (velocity == glm::vec2 { 0, 0 }) {
-        spritesheetColumn = 0;
-    }
+    update_position(deltaTime);
+    update_spritesheet_frame(deltaTime);
 }
 
 const Texture& Player::get_current_texture() {

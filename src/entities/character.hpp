@@ -18,7 +18,14 @@ public:
 
 protected:
     static void init_common();
+
+    void update_position(f32 deltaTime);
+    void update_spritesheet_frame(f32 deltaTime);
+
     virtual const Texture& get_current_texture() = 0;
+
+    virtual f32 get_walk_acceleration() { return 8.0f; }
+    virtual f32 get_friction() { return 0.95f; }
 
 protected:
     inline static bool isCommonInitialised = false;

@@ -8,6 +8,8 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
+constexpr const f32 SPRITESHEET_NEXT_FRAME_DELTA = 0.15f;
+
 Character::Character(glm::vec2 position) : position(position) {
     init_common();
 }
@@ -52,6 +54,35 @@ void Character::init_common() {
 
     log_::info("Initialised static Character data.");
     isCommonInitialised = true;
+}
+
+void Character::update_position(f32 deltaTime) {
+    velocity += acceleration * deltaTime;
+    velocity *= get_friction();
+
+    if (abs(velocity.x) < 0.0015f) {
+        velocity.x = 0;
+    }
+
+    if (abs(velocity.y) < 0.0015f) {
+        velocity.y = 0;
+    }
+
+    position += velocity;
+}
+
+void Character::update_spritesheet_frame(f32 deltaTime) {
+    frameDelta += deltaTime;
+    if (frameDelta >= SPRITESHEET_NEXT_FRAME_DELTA) {
+        frameDelta -= SPRITESHEET_NEXT_FRAME_DELTA;
+
+        spritesheetColumn += 1;
+        spritesheetColumn %= 4;
+    }
+
+    if (velocity == glm::vec2 { 0, 0 }) {
+        spritesheetColumn = 0;
+    }
 }
 
 void Character::render() {
