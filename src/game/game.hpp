@@ -25,7 +25,6 @@ public:
     void run();
 
     Shader& get_basic_shader() { return basicShader; }
-    Shader& get_character_shader() { return characterShader; }
 
     glm::vec2 get_world_mouse_position();
 
@@ -56,7 +55,6 @@ private:
 
     u32 matricesUbo = 0;
     Shader basicShader;
-    Shader characterShader;
 
     BitmapFont font;
 

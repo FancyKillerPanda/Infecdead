@@ -1,6 +1,7 @@
 #pragma once
 
 #include "common.hpp"
+#include "graphics/shader.hpp"
 #include "graphics/texture.hpp"
 
 #include <glm/glm.hpp>
@@ -41,7 +42,7 @@ protected:
     inline static glm::vec2 dimensions;
 
     inline static u32 vao = 0;
-    inline static u32 shader = 0;
+    inline static Shader shader;
     inline static u32 modelMatrixUniformLocation = 0;
     inline static u32 columnUniformLocation = 0;
     inline static u32 rotationUniformLocation = 0;

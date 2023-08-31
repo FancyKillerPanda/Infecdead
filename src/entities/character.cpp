@@ -33,11 +33,11 @@ void Character::init_common() {
     std::vector<u32> indices = { 0, 1, 2, 2, 3, 0 };
     vao = VertexArray::from_data(vertices, indices);
 
-    shader = Game::get().get_character_shader().get_program_id();
-    modelMatrixUniformLocation = glGetUniformLocation(shader, "model");
-    columnUniformLocation = glGetUniformLocation(shader, "spritesheetColumn");
-    rotationUniformLocation = glGetUniformLocation(shader, "rotation");
-    glProgramUniform1i(shader, glGetUniformLocation(shader, "texSampler"), 0);
+    shader = { "res/shaders/character.vert", "res/shaders/character.frag" };
+    modelMatrixUniformLocation = glGetUniformLocation(shader.get_program_id(), "model");
+    columnUniformLocation = glGetUniformLocation(shader.get_program_id(), "spritesheetColumn");
+    rotationUniformLocation = glGetUniformLocation(shader.get_program_id(), "rotation");
+    glProgramUniform1i(shader.get_program_id(), glGetUniformLocation(shader.get_program_id(), "texSampler"), 0);
 
     log_::info("Initialised static Character data.");
     isCommonInitialised = true;
@@ -79,12 +79,12 @@ void Character::render() {
     }
 
     glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f));
-    glProgramUniformMatrix4fv(shader, modelMatrixUniformLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
-    glProgramUniform1i(shader, columnUniformLocation, spritesheetColumn);
-    glProgramUniform1f(shader, rotationUniformLocation, rotation);
+    glProgramUniformMatrix4fv(shader.get_program_id(), modelMatrixUniformLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+    glProgramUniform1i(shader.get_program_id(), columnUniformLocation, spritesheetColumn);
+    glProgramUniform1f(shader.get_program_id(), rotationUniformLocation, rotation);
 
     glBindVertexArray(vao);
-    glUseProgram(shader);
+    glUseProgram(shader.get_program_id());
     glBindTextureUnit(0, get_current_texture().get_id());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
