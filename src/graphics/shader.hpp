@@ -8,9 +8,7 @@ public:
     Shader(const u8* vertexPath, const u8* fragmentPath);
 
     void use();
-    u32 get_program_id() const {
-        return program;
-    }
+    u32 get_id() const { return program; }
 
 private:
     u32 program = 0;
