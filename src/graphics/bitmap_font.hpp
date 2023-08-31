@@ -22,6 +22,8 @@ public:
     BitmapFont() = default;
     BitmapFont(const u8* imageFilepath, const u8* descFilepath);
 
+    const FontCharacter& operator[](s32 index);
+
 private:
     bool parse_bmfont_file(const u8* descFilepath);
 

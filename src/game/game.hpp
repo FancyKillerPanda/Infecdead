@@ -2,6 +2,7 @@
 
 #include "common.hpp"
 #include "entities/player.hpp"
+#include "graphics/bitmap_font.hpp"
 #include "graphics/shader.hpp"
 #include "graphics/texture.hpp"
 
@@ -56,6 +57,8 @@ private:
     u32 matricesUbo = 0;
     Shader basicShader;
     Shader characterShader;
+
+    BitmapFont font;
 
     Player player;
 };

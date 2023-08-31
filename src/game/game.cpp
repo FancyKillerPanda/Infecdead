@@ -1,5 +1,4 @@
 #include "game/game.hpp"
-#include "graphics/bitmap_font.hpp"
 #include "graphics/texture.hpp"
 #include "graphics/vertex.hpp"
 #include "utility/log.hpp"
@@ -49,7 +48,7 @@ void Game::init() {
 
     player = Player { glm::vec2(600.0f, 200.0f) };
 
-    BitmapFont font { FONT_PATH_NO_EXT ".png", FONT_PATH_NO_EXT ".fnt" };
+    font = BitmapFont { FONT_PATH_NO_EXT ".png", FONT_PATH_NO_EXT ".fnt" };
 }
 
 Game::~Game() {

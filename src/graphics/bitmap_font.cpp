@@ -11,6 +11,14 @@ BitmapFont::BitmapFont(const u8* imageFilepath, const u8* descFilepath) : textur
     initialised = true;
 }
 
+const FontCharacter& BitmapFont::operator[](s32 index) {
+    if (index < 0 || index > 127 || characters[index].id == 0) {
+        return characters[0];
+    }
+
+    return characters[index];
+}
+
 bool BitmapFont::parse_bmfont_file(const u8* descFilepath) {
     if (initialised) {
         return true;
