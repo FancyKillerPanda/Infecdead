@@ -12,22 +12,26 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 # Files
+set(CLASS_FILES
+	entities/character entities/player
+	game/game
+	graphics/bitmap_font graphics/shader graphics/text graphics/texture
+	utility/fileutils utility/log
+)
 set(HEADERS
-	common.hpp
-	entities/character.hpp entities/player.hpp
-	game/game.hpp
-	graphics/bitmap_font.hpp graphics/shader.hpp graphics/text.cpp graphics/texture.hpp graphics/vertex.hpp
-	utility/fileutils.hpp utility/log.hpp utility/utility.hpp
+	common
+	graphics/vertex
+
+	${CLASS_FILES}
 )
 set(SOURCES
-	main.cpp
-	entities/character.cpp entities/player.cpp
-	game/game.cpp
-	graphics/bitmap_font.cpp graphics/shader.cpp graphics/text.cpp graphics/texture.cpp
-	utility/fileutils.cpp utility/log.cpp
+	main
+	${CLASS_FILES}
 )
 list(TRANSFORM HEADERS PREPEND src/)
+list(TRANSFORM HEADERS APPEND .hpp)
 list(TRANSFORM SOURCES PREPEND src/)
+list(TRANSFORM SOURCES APPEND .cpp)
 
 # Dependencies
 set(BUILD_SHARED_LIBS OFF)
