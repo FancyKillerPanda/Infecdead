@@ -48,6 +48,7 @@ void Game::init() {
     player = Player { glm::vec2(600.0f, 200.0f) };
 
     font = BitmapFont { FONT_PATH_NO_EXT ".png", FONT_PATH_NO_EXT ".fnt" };
+    testText = Text { &font, "Test text." };
 }
 
 Game::~Game() {
@@ -101,6 +102,7 @@ void Game::render() {
     glNamedBufferSubData(matricesUbo, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(view));
 
     player.render();
+    testText.render(glm::vec2 { 0.0f, 0.0f });
 
     SDL_GL_SwapWindow(window);
 }

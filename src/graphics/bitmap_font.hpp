@@ -24,6 +24,8 @@ public:
 
     const FontCharacter& operator[](s32 index);
 
+    const Texture& get_texture() const { return texture; }
+
 private:
     bool parse_bmfont_file(const u8* descFilepath);
 

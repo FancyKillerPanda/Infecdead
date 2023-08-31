@@ -4,6 +4,7 @@
 #include "entities/player.hpp"
 #include "graphics/bitmap_font.hpp"
 #include "graphics/shader.hpp"
+#include "graphics/text.hpp"
 #include "graphics/texture.hpp"
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -57,6 +58,7 @@ private:
     Shader basicShader;
 
     BitmapFont font;
+    Text testText;
 
     Player player;
 };
