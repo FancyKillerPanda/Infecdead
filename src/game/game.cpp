@@ -1,4 +1,5 @@
 #include "game/game.hpp"
+#include "graphics/bitmap_font.hpp"
 #include "graphics/texture.hpp"
 #include "graphics/vertex.hpp"
 #include "utility/log.hpp"
@@ -18,6 +19,8 @@
 
 // TODO(fkp): Allow toggling between fullscreen and windowed.
 bool FULLSCREEN = false;
+
+#define FONT_PATH_NO_EXT "res/fonts/high-tower-text"
 
 Game& Game::get() {
     static Game game;
@@ -45,6 +48,8 @@ void Game::init() {
     glNamedBufferSubData(matricesUbo, 0, sizeof(glm::mat4), glm::value_ptr(projection));
 
     player = Player { glm::vec2(600.0f, 200.0f) };
+
+    BitmapFont font { FONT_PATH_NO_EXT ".png", FONT_PATH_NO_EXT ".fnt" };
 }
 
 Game::~Game() {
