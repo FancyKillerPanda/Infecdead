@@ -15,7 +15,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(CLASS_FILES
 	entities/character entities/player
 	game/game
-	graphics/bitmap_font graphics/shader graphics/text graphics/texture
+	graphics/bitmap_font graphics/shader graphics/text graphics/texture graphics/vertex_array
 	utility/fileutils utility/log
 )
 set(HEADERS

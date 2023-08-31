@@ -41,9 +41,6 @@ protected:
     inline static glm::vec2 dimensions;
 
     inline static u32 vao = 0;
-    inline static u32 vbo = 0;
-    inline static u32 ibo = 0;
-
     inline static u32 shader = 0;
     inline static u32 modelMatrixUniformLocation = 0;
     inline static u32 columnUniformLocation = 0;
