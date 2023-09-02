@@ -29,6 +29,10 @@ public:
 private:
     bool parse_bmfont_file(const u8* descFilepath);
 
+public:
+    s32 lineHeight = 0;
+    s32 base = 0;
+
 private:
     bool initialised = false;
 

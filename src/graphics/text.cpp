@@ -19,12 +19,15 @@ Text::Text(const BitmapFont* font, const u8* string) : font(font) {
     }
 
     u32 stringLength = strlen(string);
+    if (stringLength == 0) {
+        return;
+    }
 
     vertices.reserve(stringLength * 4);
     indices.reserve(stringLength * 6);
 
-    f32 x = 0.0f;
-    f32 y = 0.0f;
+    f32 x = (*font)[string[0]].xOffset;
+    f32 y = font->base;
 
     for (u32 i = 0; i < stringLength; i++) {
         const FontCharacter& character = (*font)[string[i]];
@@ -34,10 +37,14 @@ Text::Text(const BitmapFont* font, const u8* string) : font(font) {
         f32 texCoordX_1 = (character.x + character.width) / textureDimensions.x;
         f32 texCoordY_1 = (textureDimensions.y - character.y) / textureDimensions.y;
 
-        vertices.emplace_back(Vertex { { x, y }, { texCoordX_0, texCoordY_1 } });
-        vertices.emplace_back(Vertex { { x, y + character.height }, { texCoordX_0, texCoordY_0 } });
-        vertices.emplace_back(Vertex { { x + character.width, y + character.height }, { texCoordX_1, texCoordY_0 } });
-        vertices.emplace_back(Vertex { { x + character.width, y }, { texCoordX_1, texCoordY_1 } });
+        f32 currentX = x - character.xOffset;
+        f32 currentY = y - font->base + character.yOffset;
+
+        vertices.emplace_back(Vertex { { currentX, currentY }, { texCoordX_0, texCoordY_1 } });
+        vertices.emplace_back(Vertex { { currentX, currentY + character.height }, { texCoordX_0, texCoordY_0 } });
+        vertices.emplace_back(
+            Vertex { { currentX + character.width, currentY + character.height }, { texCoordX_1, texCoordY_0 } });
+        vertices.emplace_back(Vertex { { currentX + character.width, currentY }, { texCoordX_1, texCoordY_1 } });
 
         indices.emplace_back((i * 4) + 0);
         indices.emplace_back((i * 4) + 1);

@@ -56,7 +56,7 @@ bool BitmapFont::parse_bmfont_file(const u8* descFilepath) {
     s32 pages = 0;
 
     fgets(buffer, bufferLength, file);
-    sscanf(buffer, "common lineHeight=%*d base=%*d scaleW=%*d scaleH=%*d pages=%d packed=%*d", &pages);
+    sscanf(buffer, "common lineHeight=%d base=%d scaleW=%*d scaleH=%*d pages=%d packed=%*d", &lineHeight, &base, &pages);
 
     if (pages != 1) {
         // This is a custom requirement.
