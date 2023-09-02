@@ -2,8 +2,11 @@
 
 #include "graphics/bitmap_font.hpp"
 #include "graphics/shader.hpp"
+#include "graphics/vertex.hpp"
 
 #include <glm/glm.hpp>
+
+#include <vector>
 
 class Text {
 public:
@@ -17,6 +20,9 @@ private:
 
     u32 vao = 0;
     const BitmapFont* font;
+
+    std::vector<Vertex> vertices;
+    std::vector<u32> indices;
 
     inline static Shader shader;
     inline static u32 modelMatrixUniformLocation = 0;

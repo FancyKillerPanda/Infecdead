@@ -1,5 +1,4 @@
 #include "graphics/text.hpp"
-#include "graphics/vertex.hpp"
 #include "graphics/vertex_array.hpp"
 #include "utility/log.hpp"
 
@@ -10,7 +9,6 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <string.h>
-#include <vector>
 
 Text::Text(const BitmapFont* font, const u8* string) : font(font) {
     if (shader.get_id() == 0) {
@@ -22,32 +20,34 @@ Text::Text(const BitmapFont* font, const u8* string) : font(font) {
 
     u32 stringLength = strlen(string);
 
-    std::vector<Vertex> vertices;
-    std::vector<u32> indices;
     vertices.reserve(stringLength * 4);
     indices.reserve(stringLength * 6);
 
-    // for (u32 i = 0; i < stringLength; i++) {
-    const FontCharacter& character = (*font)[string[0]];
-    const glm::vec2& textureDimensions = font->get_texture().get_dimensions();
-    f32 texCoordX_0 = character.x / textureDimensions.x;
-    f32 texCoordY_0 = (textureDimensions.y - character.y - character.height) / textureDimensions.y;
-    f32 texCoordX_1 = (character.x + character.width) / textureDimensions.x;
-    f32 texCoordY_1 = (textureDimensions.y - character.y) / textureDimensions.y;
+    f32 x = 0.0f;
+    f32 y = 0.0f;
 
-    vertices.emplace_back(Vertex { glm::vec2(0.0f, 0.0f), glm::vec2(texCoordX_0, texCoordY_1) });
-    vertices.emplace_back(Vertex { glm::vec2(0.0f, (f32) character.height), glm::vec2(texCoordX_0, texCoordY_0) });
-    vertices.emplace_back(
-        Vertex { glm::vec2((f32) character.width, (f32) character.height), glm::vec2(texCoordX_1, texCoordY_0) });
-    vertices.emplace_back(Vertex { glm::vec2((f32) character.width, 0.0f), glm::vec2(texCoordX_1, texCoordY_1) });
+    for (u32 i = 0; i < stringLength; i++) {
+        const FontCharacter& character = (*font)[string[i]];
+        const glm::vec2& textureDimensions = font->get_texture().get_dimensions();
+        f32 texCoordX_0 = character.x / textureDimensions.x;
+        f32 texCoordY_0 = (textureDimensions.y - character.y - character.height) / textureDimensions.y;
+        f32 texCoordX_1 = (character.x + character.width) / textureDimensions.x;
+        f32 texCoordY_1 = (textureDimensions.y - character.y) / textureDimensions.y;
 
-    indices.emplace_back(0);
-    indices.emplace_back(1);
-    indices.emplace_back(2);
-    indices.emplace_back(2);
-    indices.emplace_back(3);
-    indices.emplace_back(0);
-    //}
+        vertices.emplace_back(Vertex { { x, y }, { texCoordX_0, texCoordY_1 } });
+        vertices.emplace_back(Vertex { { x, y + character.height }, { texCoordX_0, texCoordY_0 } });
+        vertices.emplace_back(Vertex { { x + character.width, y + character.height }, { texCoordX_1, texCoordY_0 } });
+        vertices.emplace_back(Vertex { { x + character.width, y }, { texCoordX_1, texCoordY_1 } });
+
+        indices.emplace_back((i * 4) + 0);
+        indices.emplace_back((i * 4) + 1);
+        indices.emplace_back((i * 4) + 2);
+        indices.emplace_back((i * 4) + 2);
+        indices.emplace_back((i * 4) + 3);
+        indices.emplace_back((i * 4) + 0);
+
+        x += character.xAdvance;
+    }
 
     vao = VertexArray::from_data(vertices, indices);
 
@@ -66,5 +66,5 @@ void Text::render(glm::vec2 position) {
     glBindVertexArray(vao);
     shader.use();
     glBindTextureUnit(0, font->get_texture().get_id());
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, nullptr);
 }
