@@ -27,13 +27,19 @@ Text::Text(const BitmapFont* font, const u8* string) : font(font) {
     vertices.reserve(stringLength * 4);
     indices.reserve(stringLength * 6);
 
-    for (u32 i = 0; i < stringLength; i++) {
-    }
+    // for (u32 i = 0; i < stringLength; i++) {
+    const FontCharacter& character = (*font)[string[0]];
+    const glm::vec2& textureDimensions = font->get_texture().get_dimensions();
+    f32 texCoordX_0 = character.x / textureDimensions.x;
+    f32 texCoordY_0 = (textureDimensions.y - character.y - character.height) / textureDimensions.y;
+    f32 texCoordX_1 = (character.x + character.width) / textureDimensions.x;
+    f32 texCoordY_1 = (textureDimensions.y - character.y) / textureDimensions.y;
 
-    vertices.emplace_back(Vertex { glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 1.0f) });
-    vertices.emplace_back(Vertex { glm::vec2(0.0f, 512.0f), glm::vec2(0.0f, 0.0f) });
-    vertices.emplace_back(Vertex { glm::vec2(512.0f, 512.0f), glm::vec2(1.0f, 0.0f) });
-    vertices.emplace_back(Vertex { glm::vec2(512.0f, 0.0f), glm::vec2(1.0f, 1.0f) });
+    vertices.emplace_back(Vertex { glm::vec2(0.0f, 0.0f), glm::vec2(texCoordX_0, texCoordY_1) });
+    vertices.emplace_back(Vertex { glm::vec2(0.0f, (f32) character.height), glm::vec2(texCoordX_0, texCoordY_0) });
+    vertices.emplace_back(
+        Vertex { glm::vec2((f32) character.width, (f32) character.height), glm::vec2(texCoordX_1, texCoordY_0) });
+    vertices.emplace_back(Vertex { glm::vec2((f32) character.width, 0.0f), glm::vec2(texCoordX_1, texCoordY_1) });
 
     indices.emplace_back(0);
     indices.emplace_back(1);
@@ -41,6 +47,7 @@ Text::Text(const BitmapFont* font, const u8* string) : font(font) {
     indices.emplace_back(2);
     indices.emplace_back(3);
     indices.emplace_back(0);
+    //}
 
     vao = VertexArray::from_data(vertices, indices);
 

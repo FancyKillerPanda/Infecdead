@@ -22,7 +22,7 @@ public:
     BitmapFont() = default;
     BitmapFont(const u8* imageFilepath, const u8* descFilepath);
 
-    const FontCharacter& operator[](s32 index);
+    const FontCharacter& operator[](s32 character) const;
 
     const Texture& get_texture() const { return texture; }
 

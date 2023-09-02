@@ -19,6 +19,7 @@ Texture::Texture(const u8* filepath) {
         return;
     }
 
+    flip_surface_vertically(surface);
     init(surface);
     SDL_DestroySurface(surface);
 }
@@ -43,8 +44,6 @@ void Texture::init(SDL_Surface* surface) {
         return;
     }
 
-    flip_surface_vertically(surface);
-
     glCreateTextures(GL_TEXTURE_2D, 1, &id);
 
     glTextureParameteri(id, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -55,6 +54,8 @@ void Texture::init(SDL_Surface* surface) {
     glTextureStorage2D(id, 1, format, surface->w, surface->h);
     glTextureSubImage2D(id, 0, 0, 0, surface->w, surface->h, formatBase, GL_UNSIGNED_BYTE, surface->pixels);
     // glGenerateTextureMipmap(id);
+
+    dimensions = glm::vec2 { (f32) surface->w, (f32) surface->h };
 }
 
 Texture& Texture::missing() {

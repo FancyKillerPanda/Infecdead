@@ -2,6 +2,8 @@
 
 #include "common.hpp"
 
+#include <glm/glm.hpp>
+
 #include <SDL3/SDL.h>
 
 class Texture {
@@ -13,6 +15,7 @@ public:
     static Texture& missing();
 
     u32 get_id() const { return id; }
+    const glm::vec2& get_dimensions() const { return dimensions; }
 
 private:
     void init(SDL_Surface* surface);
@@ -22,5 +25,7 @@ private:
 
 private:
     u32 id = 0;
+    glm::vec2 dimensions;
+
     static Texture missingTexture;
 };
