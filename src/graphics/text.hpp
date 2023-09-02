@@ -19,4 +19,5 @@ private:
     const BitmapFont* font;
 
     inline static Shader shader;
+    inline static u32 modelMatrixUniformLocation = 0;
 };

@@ -84,7 +84,7 @@ void Character::render() {
     glProgramUniform1f(shader.get_id(), rotationUniformLocation, rotation);
 
     glBindVertexArray(vao);
-    glUseProgram(shader.get_id());
+    shader.use();
     glBindTextureUnit(0, get_current_texture().get_id());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }

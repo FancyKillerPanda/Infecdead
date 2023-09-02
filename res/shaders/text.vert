@@ -5,9 +5,14 @@ layout (location = 1) in vec2 aTexCoord;
 
 out vec2 texCoord;
 
+layout(std140, binding = 0) uniform Matrices {
+	mat4 projection;
+	mat4 view;
+};
+
 uniform mat4 model;
 
 void main() {
-	gl_Position = vec4(aPosition, 0.0, 1.0);
+	gl_Position = projection * model * vec4(aPosition, 0.0, 1.0);
 	texCoord = aTexCoord;
 }
